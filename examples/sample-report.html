@@ -144,7 +144,7 @@
             background: #bfdbfe !important;
         }
         
-        /* Simple CSS Charts */
+        /* Chart containers */
         .charts-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -172,78 +172,164 @@
             gap: 8px;
         }
         
-        /* CSS Bar Chart */
+        /* CSS Bar Chart - Fixed Implementation */
         .css-chart {
             width: 100%;
-            height: 300px;
+            height: 350px;
             position: relative;
-            border: 1px solid #e5e7eb;
+            border: 2px solid #e5e7eb;
             border-radius: 8px;
             padding: 20px;
-            background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+            background: #fafafa;
+            display: flex;
+            flex-direction: column;
         }
         
         .chart-bars {
             display: flex;
-            align-items: end;
+            align-items: flex-end;
             justify-content: space-around;
-            height: 200px;
+            height: 250px;
             margin-bottom: 20px;
+            padding: 0 10px;
+            border-bottom: 2px solid #d1d5db;
+            position: relative;
+        }
+        
+        /* Grid lines for better visualization */
+        .chart-bars::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(to top, #e5e7eb 1px, transparent 1px);
+            background-size: 100% 50px;
+            pointer-events: none;
+            opacity: 0.5;
         }
         
         .bar-group {
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-width: 80px;
+            min-width: 100px;
+            position: relative;
+            z-index: 1;
         }
         
         .bar {
-            width: 40px;
-            border-radius: 4px 4px 0 0;
-            margin-bottom: 10px;
+            width: 60px;
+            border-radius: 6px 6px 0 0;
+            margin-bottom: 15px;
             position: relative;
             transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border: 2px solid rgba(255,255,255,0.3);
+            min-height: 20px; /* Ensure minimum visible height */
         }
         
         .bar:hover {
-            transform: translateY(-2px);
-            opacity: 0.8;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
         
         .bar-label {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             font-weight: 600;
             color: #374151;
             text-align: center;
+            margin-bottom: 5px;
         }
         
         .bar-value {
             font-size: 0.75rem;
             color: #6b7280;
-            margin-top: 5px;
+            font-weight: 500;
         }
         
-        /* Duration bars */
-        .duration-256 { background: linear-gradient(to top, #ef4444, #f87171); height: 95%; }
-        .duration-512 { background: linear-gradient(to top, #f59e0b, #fbbf24); height: 48%; }
-        .duration-1024 { background: linear-gradient(to top, #10b981, #34d399); height: 26%; }
-        .duration-2048 { background: linear-gradient(to top, #8b5cf6, #a78bfa); height: 18%; }
-        .duration-3008 { background: linear-gradient(to top, #3b82f6, #60a5fa); height: 15%; }
+        /* Duration bars - heights based on relative performance */
+        .duration-256 { 
+            background: linear-gradient(135deg, #ef4444, #f87171); 
+            height: 200px; /* Slowest - full height */
+        }
+        .duration-512 { 
+            background: linear-gradient(135deg, #f59e0b, #fbbf24); 
+            height: 100px; /* 50% of slowest */
+        }
+        .duration-1024 { 
+            background: linear-gradient(135deg, #10b981, #34d399); 
+            height: 55px; /* Optimal - fastest practical */
+        }
+        .duration-2048 { 
+            background: linear-gradient(135deg, #8b5cf6, #a78bfa); 
+            height: 37px; /* Diminishing returns */
+        }
+        .duration-3008 { 
+            background: linear-gradient(135deg, #3b82f6, #60a5fa); 
+            height: 32px; /* Expensive */
+        }
         
-        /* Cost bars */
-        .cost-256 { background: linear-gradient(to top, #10b981, #34d399); height: 25%; }
-        .cost-512 { background: linear-gradient(to top, #f59e0b, #fbbf24); height: 28%; }
-        .cost-1024 { background: linear-gradient(to top, #ef4444, #f87171); height: 32%; }
-        .cost-2048 { background: linear-gradient(to top, #8b5cf6, #a78bfa); height: 45%; }
-        .cost-3008 { background: linear-gradient(to top, #3b82f6, #60a5fa); height: 68%; }
+        /* Cost bars - heights based on relative cost */
+        .cost-256 { 
+            background: linear-gradient(135deg, #10b981, #34d399); 
+            height: 50px; /* Cheapest */
+        }
+        .cost-512 { 
+            background: linear-gradient(135deg, #f59e0b, #fbbf24); 
+            height: 54px; /* Current */
+        }
+        .cost-1024 { 
+            background: linear-gradient(135deg, #ef4444, #f87171); 
+            height: 60px; /* Optimal balance */
+        }
+        .cost-2048 { 
+            background: linear-gradient(135deg, #8b5cf6, #a78bfa); 
+            height: 85px; /* Higher cost */
+        }
+        .cost-3008 { 
+            background: linear-gradient(135deg, #3b82f6, #60a5fa); 
+            height: 128px; /* Most expensive */
+        }
         
-        /* Efficiency bars */
-        .eff-256 { background: linear-gradient(to top, #ef4444, #f87171); height: 85%; }
-        .eff-512 { background: linear-gradient(to top, #f59e0b, #fbbf24); height: 45%; }
-        .eff-1024 { background: linear-gradient(to top, #10b981, #34d399); height: 25%; }
-        .eff-2048 { background: linear-gradient(to top, #8b5cf6, #a78bfa); height: 18%; }
-        .eff-3008 { background: linear-gradient(to top, #3b82f6, #60a5fa); height: 17%; }
+        /* Efficiency bars - lower is better */
+        .eff-256 { 
+            background: linear-gradient(135deg, #ef4444, #f87171); 
+            height: 180px; /* Poor efficiency */
+        }
+        .eff-512 { 
+            background: linear-gradient(135deg, #f59e0b, #fbbf24); 
+            height: 92px; /* Fair efficiency */
+        }
+        .eff-1024 { 
+            background: linear-gradient(135deg, #10b981, #34d399); 
+            height: 53px; /* Best efficiency */
+        }
+        .eff-2048 { 
+            background: linear-gradient(135deg, #8b5cf6, #a78bfa); 
+            height: 39px; /* Good but expensive */
+        }
+        .eff-3008 { 
+            background: linear-gradient(135deg, #3b82f6, #60a5fa); 
+            height: 38px; /* Expensive efficiency */
+        }
+        
+        /* Add optimal indicator */
+        .optimal-bar {
+            position: relative;
+        }
+        
+        .optimal-bar::after {
+            content: '⭐';
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.2em;
+            z-index: 2;
+        }
         
         .insights-section {
             background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
@@ -325,20 +411,39 @@
             }
             
             .css-chart {
-                height: 250px;
+                height: 300px;
             }
             
             .chart-bars {
-                height: 150px;
+                height: 200px;
             }
             
             .bar {
-                width: 30px;
+                width: 40px;
             }
             
             .bar-group {
-                min-width: 60px;
+                min-width: 70px;
             }
+            
+            /* Scale down heights for mobile */
+            .duration-256 { height: 160px; }
+            .duration-512 { height: 80px; }
+            .duration-1024 { height: 44px; }
+            .duration-2048 { height: 30px; }
+            .duration-3008 { height: 26px; }
+            
+            .cost-256 { height: 40px; }
+            .cost-512 { height: 43px; }
+            .cost-1024 { height: 48px; }
+            .cost-2048 { height: 68px; }
+            .cost-3008 { height: 102px; }
+            
+            .eff-256 { height: 144px; }
+            .eff-512 { height: 74px; }
+            .eff-1024 { height: 42px; }
+            .eff-2048 { height: 31px; }
+            .eff-3008 { height: 30px; }
         }
         
         @media (max-width: 480px) {
@@ -364,11 +469,19 @@
             }
             
             .css-chart {
-                height: 200px;
+                height: 250px;
             }
             
             .chart-bars {
-                height: 120px;
+                height: 150px;
+            }
+            
+            .bar {
+                width: 30px;
+            }
+            
+            .bar-group {
+                min-width: 55px;
             }
         }
     </style>
@@ -478,27 +591,27 @@
                 <div class="css-chart">
                     <div class="chart-bars">
                         <div class="bar-group">
-                            <div class="bar duration-256" title="2,456ms"></div>
+                            <div class="bar duration-256" title="2,456ms - Very slow"></div>
                             <div class="bar-label">256MB</div>
                             <div class="bar-value">2,456ms</div>
                         </div>
                         <div class="bar-group">
-                            <div class="bar duration-512" title="1,234ms"></div>
-                            <div class="bar-label">512MB</div>
+                            <div class="bar duration-512" title="1,234ms - Current setting"></div>
+                            <div class="bar-label">512MB<br><small>(Current)</small></div>
                             <div class="bar-value">1,234ms</div>
                         </div>
-                        <div class="bar-group">
-                            <div class="bar duration-1024" title="678ms"></div>
-                            <div class="bar-label">1024MB ⭐</div>
+                        <div class="bar-group optimal-bar">
+                            <div class="bar duration-1024" title="678ms - Optimal performance"></div>
+                            <div class="bar-label">1024MB<br><small>(Optimal)</small></div>
                             <div class="bar-value">678ms</div>
                         </div>
                         <div class="bar-group">
-                            <div class="bar duration-2048" title="456ms"></div>
+                            <div class="bar duration-2048" title="456ms - Diminishing returns"></div>
                             <div class="bar-label">2048MB</div>
                             <div class="bar-value">456ms</div>
                         </div>
                         <div class="bar-group">
-                            <div class="bar duration-3008" title="398ms"></div>
+                            <div class="bar duration-3008" title="398ms - Expensive"></div>
                             <div class="bar-label">3008MB</div>
                             <div class="bar-value">398ms</div>
                         </div>
@@ -511,27 +624,27 @@
                 <div class="css-chart">
                     <div class="chart-bars">
                         <div class="bar-group">
-                            <div class="bar cost-256" title="$0.000052"></div>
+                            <div class="bar cost-256" title="$0.000052 - Cheapest but slow"></div>
                             <div class="bar-label">256MB</div>
                             <div class="bar-value">$0.000052</div>
                         </div>
                         <div class="bar-group">
-                            <div class="bar cost-512" title="$0.000056"></div>
-                            <div class="bar-label">512MB</div>
+                            <div class="bar cost-512" title="$0.000056 - Current cost"></div>
+                            <div class="bar-label">512MB<br><small>(Current)</small></div>
                             <div class="bar-value">$0.000056</div>
                         </div>
-                        <div class="bar-group">
-                            <div class="bar cost-1024" title="$0.000063"></div>
-                            <div class="bar-label">1024MB ⭐</div>
+                        <div class="bar-group optimal-bar">
+                            <div class="bar cost-1024" title="$0.000063 - Best value"></div>
+                            <div class="bar-label">1024MB<br><small>(Optimal)</small></div>
                             <div class="bar-value">$0.000063</div>
                         </div>
                         <div class="bar-group">
-                            <div class="bar cost-2048" title="$0.000089"></div>
+                            <div class="bar cost-2048" title="$0.000089 - Higher cost"></div>
                             <div class="bar-label">2048MB</div>
                             <div class="bar-value">$0.000089</div>
                         </div>
                         <div class="bar-group">
-                            <div class="bar cost-3008" title="$0.000134"></div>
+                            <div class="bar cost-3008" title="$0.000134 - Most expensive"></div>
                             <div class="bar-label">3008MB</div>
                             <div class="bar-value">$0.000134</div>
                         </div>
@@ -544,29 +657,29 @@
                 <div class="css-chart">
                     <div class="chart-bars">
                         <div class="bar-group">
-                            <div class="bar eff-256" title="2.51 (Poor)"></div>
+                            <div class="bar eff-256" title="2.51 - Poor efficiency"></div>
                             <div class="bar-label">256MB</div>
-                            <div class="bar-value">2.51</div>
+                            <div class="bar-value">2.51<br><small>(Poor)</small></div>
                         </div>
                         <div class="bar-group">
-                            <div class="bar eff-512" title="1.29 (Fair)"></div>
-                            <div class="bar-label">512MB</div>
-                            <div class="bar-value">1.29</div>
+                            <div class="bar eff-512" title="1.29 - Fair efficiency"></div>
+                            <div class="bar-label">512MB<br><small>(Current)</small></div>
+                            <div class="bar-value">1.29<br><small>(Fair)</small></div>
+                        </div>
+                        <div class="bar-group optimal-bar">
+                            <div class="bar eff-1024" title="0.74 - Best efficiency"></div>
+                            <div class="bar-label">1024MB<br><small>(Optimal)</small></div>
+                            <div class="bar-value">0.74<br><small>(Best)</small></div>
                         </div>
                         <div class="bar-group">
-                            <div class="bar eff-1024" title="0.74 (Optimal)"></div>
-                            <div class="bar-label">1024MB ⭐</div>
-                            <div class="bar-value">0.74</div>
-                        </div>
-                        <div class="bar-group">
-                            <div class="bar eff-2048" title="0.54 (Good)"></div>
+                            <div class="bar eff-2048" title="0.54 - Good but expensive"></div>
                             <div class="bar-label">2048MB</div>
-                            <div class="bar-value">0.54</div>
+                            <div class="bar-value">0.54<br><small>(Good)</small></div>
                         </div>
                         <div class="bar-group">
-                            <div class="bar eff-3008" title="0.53 (Expensive)"></div>
+                            <div class="bar eff-3008" title="0.53 - Expensive"></div>
                             <div class="bar-label">3008MB</div>
-                            <div class="bar-value">0.53</div>
+                            <div class="bar-value">0.53<br><small>(Expensive)</small></div>
                         </div>
                     </div>
                 </div>
