@@ -144,7 +144,7 @@
             background: #bfdbfe !important;
         }
         
-        /* Chart containers */
+        /* Simple CSS Charts */
         .charts-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -158,18 +158,6 @@
             padding: 24px;
             border: 1px solid #e5e7eb;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-        }
-        
-        .chart-container:hover {
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        
-        .chart-wrapper {
-            position: relative;
-            width: 100%;
-            height: 400px;
-            margin: 20px 0;
         }
         
         .chart-title { 
@@ -183,6 +171,79 @@
             justify-content: center;
             gap: 8px;
         }
+        
+        /* CSS Bar Chart */
+        .css-chart {
+            width: 100%;
+            height: 300px;
+            position: relative;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 20px;
+            background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+        }
+        
+        .chart-bars {
+            display: flex;
+            align-items: end;
+            justify-content: space-around;
+            height: 200px;
+            margin-bottom: 20px;
+        }
+        
+        .bar-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 80px;
+        }
+        
+        .bar {
+            width: 40px;
+            border-radius: 4px 4px 0 0;
+            margin-bottom: 10px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .bar:hover {
+            transform: translateY(-2px);
+            opacity: 0.8;
+        }
+        
+        .bar-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #374151;
+            text-align: center;
+        }
+        
+        .bar-value {
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin-top: 5px;
+        }
+        
+        /* Duration bars */
+        .duration-256 { background: linear-gradient(to top, #ef4444, #f87171); height: 95%; }
+        .duration-512 { background: linear-gradient(to top, #f59e0b, #fbbf24); height: 48%; }
+        .duration-1024 { background: linear-gradient(to top, #10b981, #34d399); height: 26%; }
+        .duration-2048 { background: linear-gradient(to top, #8b5cf6, #a78bfa); height: 18%; }
+        .duration-3008 { background: linear-gradient(to top, #3b82f6, #60a5fa); height: 15%; }
+        
+        /* Cost bars */
+        .cost-256 { background: linear-gradient(to top, #10b981, #34d399); height: 25%; }
+        .cost-512 { background: linear-gradient(to top, #f59e0b, #fbbf24); height: 28%; }
+        .cost-1024 { background: linear-gradient(to top, #ef4444, #f87171); height: 32%; }
+        .cost-2048 { background: linear-gradient(to top, #8b5cf6, #a78bfa); height: 45%; }
+        .cost-3008 { background: linear-gradient(to top, #3b82f6, #60a5fa); height: 68%; }
+        
+        /* Efficiency bars */
+        .eff-256 { background: linear-gradient(to top, #ef4444, #f87171); height: 85%; }
+        .eff-512 { background: linear-gradient(to top, #f59e0b, #fbbf24); height: 45%; }
+        .eff-1024 { background: linear-gradient(to top, #10b981, #34d399); height: 25%; }
+        .eff-2048 { background: linear-gradient(to top, #8b5cf6, #a78bfa); height: 18%; }
+        .eff-3008 { background: linear-gradient(to top, #3b82f6, #60a5fa); height: 17%; }
         
         .insights-section {
             background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
@@ -236,13 +297,6 @@
             text-decoration: underline;
         }
         
-        .loading-message {
-            text-align: center;
-            color: #6b7280;
-            font-style: italic;
-            padding: 20px;
-        }
-        
         /* Mobile responsiveness */
         @media (max-width: 768px) {
             body {
@@ -270,21 +324,20 @@
                 font-size: 1.6rem;
             }
             
-            .chart-wrapper {
-                height: 300px;
+            .css-chart {
+                height: 250px;
             }
             
-            .chart-container {
-                padding: 20px;
+            .chart-bars {
+                height: 150px;
             }
             
-            .chart-title {
-                font-size: 1.1rem;
-                margin-bottom: 15px;
+            .bar {
+                width: 30px;
             }
             
-            .charts-grid {
-                gap: 20px;
+            .bar-group {
+                min-width: 60px;
             }
         }
         
@@ -310,19 +363,15 @@
                 font-size: 1.4rem;
             }
             
-            .chart-wrapper {
-                height: 250px;
+            .css-chart {
+                height: 200px;
             }
             
-            .chart-title {
-                font-size: 1rem;
-                flex-direction: column;
-                gap: 4px;
+            .chart-bars {
+                height: 120px;
             }
         }
     </style>
-    <!-- Load Chart.js from reliable CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -426,25 +475,100 @@
         <div class="charts-grid">
             <div class="chart-container">
                 <div class="chart-title">⚡ Execution Time vs Memory</div>
-                <div class="chart-wrapper">
-                    <canvas id="durationChart"></canvas>
-                    <div id="durationLoading" class="loading-message">Loading chart...</div>
+                <div class="css-chart">
+                    <div class="chart-bars">
+                        <div class="bar-group">
+                            <div class="bar duration-256" title="2,456ms"></div>
+                            <div class="bar-label">256MB</div>
+                            <div class="bar-value">2,456ms</div>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar duration-512" title="1,234ms"></div>
+                            <div class="bar-label">512MB</div>
+                            <div class="bar-value">1,234ms</div>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar duration-1024" title="678ms"></div>
+                            <div class="bar-label">1024MB ⭐</div>
+                            <div class="bar-value">678ms</div>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar duration-2048" title="456ms"></div>
+                            <div class="bar-label">2048MB</div>
+                            <div class="bar-value">456ms</div>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar duration-3008" title="398ms"></div>
+                            <div class="bar-label">3008MB</div>
+                            <div class="bar-value">398ms</div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="chart-container">
                 <div class="chart-title">💰 Cost vs Memory</div>
-                <div class="chart-wrapper">
-                    <canvas id="costChart"></canvas>
-                    <div id="costLoading" class="loading-message">Loading chart...</div>
+                <div class="css-chart">
+                    <div class="chart-bars">
+                        <div class="bar-group">
+                            <div class="bar cost-256" title="$0.000052"></div>
+                            <div class="bar-label">256MB</div>
+                            <div class="bar-value">$0.000052</div>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar cost-512" title="$0.000056"></div>
+                            <div class="bar-label">512MB</div>
+                            <div class="bar-value">$0.000056</div>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar cost-1024" title="$0.000063"></div>
+                            <div class="bar-label">1024MB ⭐</div>
+                            <div class="bar-value">$0.000063</div>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar cost-2048" title="$0.000089"></div>
+                            <div class="bar-label">2048MB</div>
+                            <div class="bar-value">$0.000089</div>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar cost-3008" title="$0.000134"></div>
+                            <div class="bar-label">3008MB</div>
+                            <div class="bar-value">$0.000134</div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="chart-container">
                 <div class="chart-title">🎯 Efficiency Score vs Memory</div>
-                <div class="chart-wrapper">
-                    <canvas id="efficiencyChart"></canvas>
-                    <div id="efficiencyLoading" class="loading-message">Loading chart...</div>
+                <div class="css-chart">
+                    <div class="chart-bars">
+                        <div class="bar-group">
+                            <div class="bar eff-256" title="2.51 (Poor)"></div>
+                            <div class="bar-label">256MB</div>
+                            <div class="bar-value">2.51</div>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar eff-512" title="1.29 (Fair)"></div>
+                            <div class="bar-label">512MB</div>
+                            <div class="bar-value">1.29</div>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar eff-1024" title="0.74 (Optimal)"></div>
+                            <div class="bar-label">1024MB ⭐</div>
+                            <div class="bar-value">0.74</div>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar eff-2048" title="0.54 (Good)"></div>
+                            <div class="bar-label">2048MB</div>
+                            <div class="bar-value">0.54</div>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar eff-3008" title="0.53 (Expensive)"></div>
+                            <div class="bar-label">3008MB</div>
+                            <div class="bar-value">0.53</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -468,291 +592,5 @@
             <p>Generated by <strong>Universal Lambda Power Tuner</strong> | <a href="https://github.com/kencytbb/universal-serverless-tuner">⭐ Star on GitHub</a></p>
         </div>
     </div>
-
-    <script>
-        // Check if Chart.js is loaded
-        if (typeof Chart === 'undefined') {
-            console.error('Chart.js failed to load');
-            document.querySelectorAll('.loading-message').forEach(el => {
-                el.textContent = 'Charts unavailable - Chart.js failed to load';
-                el.style.color = '#dc2626';
-            });
-        } else {
-            // Sample data - this would be generated dynamically
-            const memoryData = [256, 512, 1024, 2048, 3008];
-            const durationData = [2456, 1234, 678, 456, 398];
-            const costData = [0.000052, 0.000056, 0.000063, 0.000089, 0.000134];
-            const efficiencyData = [2.51, 1.29, 0.74, 0.54, 0.53];
-
-            // Common chart options
-            const commonOptions = {
-                responsive: true,
-                maintainAspectRatio: false,
-                interaction: {
-                    intersect: false,
-                    mode: 'index'
-                },
-                plugins: {
-                    legend: {
-                        display: false
-                    },
-                    tooltip: {
-                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                        titleColor: 'white',
-                        bodyColor: 'white',
-                        borderColor: 'rgba(255, 255, 255, 0.2)',
-                        borderWidth: 1,
-                        cornerRadius: 8,
-                        displayColors: false
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            color: 'rgba(0,0,0,0.05)',
-                            drawBorder: false
-                        },
-                        ticks: {
-                            font: {
-                                size: 12
-                            },
-                            color: '#6b7280'
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false
-                        },
-                        ticks: {
-                            font: {
-                                size: 12
-                            },
-                            color: '#6b7280'
-                        }
-                    }
-                }
-            };
-
-            // Function to create charts
-            function createChart(canvasId, type, data, options) {
-                try {
-                    const ctx = document.getElementById(canvasId);
-                    if (!ctx) {
-                        console.error(`Canvas element ${canvasId} not found`);
-                        return;
-                    }
-                    
-                    const chart = new Chart(ctx, {
-                        type: type,
-                        data: data,
-                        options: options
-                    });
-                    
-                    // Hide loading message
-                    const loadingEl = document.getElementById(canvasId.replace('Chart', 'Loading'));
-                    if (loadingEl) {
-                        loadingEl.style.display = 'none';
-                    }
-                    
-                    return chart;
-                } catch (error) {
-                    console.error(`Failed to create chart ${canvasId}:`, error);
-                    const loadingEl = document.getElementById(canvasId.replace('Chart', 'Loading'));
-                    if (loadingEl) {
-                        loadingEl.textContent = 'Chart failed to load';
-                        loadingEl.style.color = '#dc2626';
-                    }
-                }
-            }
-
-            // Wait for DOM to be ready
-            document.addEventListener('DOMContentLoaded', function() {
-                // Duration Chart
-                createChart('durationChart', 'line', {
-                    labels: memoryData.map(m => m + 'MB'),
-                    datasets: [{
-                        label: 'Average Duration (ms)',
-                        data: durationData,
-                        borderColor: '#4f46e5',
-                        backgroundColor: 'rgba(79, 70, 229, 0.1)',
-                        tension: 0.4,
-                        pointBackgroundColor: '#4f46e5',
-                        pointBorderColor: '#ffffff',
-                        pointBorderWidth: 3,
-                        pointRadius: 6,
-                        pointHoverRadius: 8,
-                        fill: true,
-                        borderWidth: 3
-                    }]
-                }, {
-                    ...commonOptions,
-                    plugins: {
-                        ...commonOptions.plugins,
-                        tooltip: {
-                            ...commonOptions.plugins.tooltip,
-                            callbacks: {
-                                label: function(context) {
-                                    return `Duration: ${context.parsed.y.toLocaleString()}ms`;
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        ...commonOptions.scales,
-                        y: {
-                            ...commonOptions.scales.y,
-                            title: {
-                                display: true,
-                                text: 'Duration (milliseconds)',
-                                font: { size: 13, weight: 'bold' },
-                                color: '#374151'
-                            }
-                        },
-                        x: {
-                            ...commonOptions.scales.x,
-                            title: {
-                                display: true,
-                                text: 'Memory Configuration',
-                                font: { size: 13, weight: 'bold' },
-                                color: '#374151'
-                            }
-                        }
-                    }
-                });
-
-                // Cost Chart
-                createChart('costChart', 'line', {
-                    labels: memoryData.map(m => m + 'MB'),
-                    datasets: [{
-                        label: 'Average Cost ($)',
-                        data: costData,
-                        borderColor: '#10b981',
-                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                        tension: 0.4,
-                        pointBackgroundColor: '#10b981',
-                        pointBorderColor: '#ffffff',
-                        pointBorderWidth: 3,
-                        pointRadius: 6,
-                        pointHoverRadius: 8,
-                        fill: true,
-                        borderWidth: 3
-                    }]
-                }, {
-                    ...commonOptions,
-                    plugins: {
-                        ...commonOptions.plugins,
-                        tooltip: {
-                            ...commonOptions.plugins.tooltip,
-                            callbacks: {
-                                label: function(context) {
-                                    return `Cost: $${context.parsed.y.toFixed(6)}`;
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        ...commonOptions.scales,
-                        y: {
-                            ...commonOptions.scales.y,
-                            title: {
-                                display: true,
-                                text: 'Cost per Invocation ($)',
-                                font: { size: 13, weight: 'bold' },
-                                color: '#374151'
-                            },
-                            ticks: {
-                                ...commonOptions.scales.y.ticks,
-                                callback: function(value) {
-                                    return '$' + value.toFixed(6);
-                                }
-                            }
-                        },
-                        x: {
-                            ...commonOptions.scales.x,
-                            title: {
-                                display: true,
-                                text: 'Memory Configuration',
-                                font: { size: 13, weight: 'bold' },
-                                color: '#374151'
-                            }
-                        }
-                    }
-                });
-
-                // Efficiency Chart
-                createChart('efficiencyChart', 'bar', {
-                    labels: memoryData.map(m => m + 'MB'),
-                    datasets: [{
-                        label: 'Efficiency Score (lower is better)',
-                        data: efficiencyData,
-                        backgroundColor: [
-                            'rgba(239, 68, 68, 0.8)',   // 256MB - Poor
-                            'rgba(245, 158, 11, 0.8)',  // 512MB - Fair  
-                            'rgba(16, 185, 129, 0.8)',  // 1024MB - Best
-                            'rgba(139, 92, 246, 0.8)',  // 2048MB - Good
-                            'rgba(59, 130, 246, 0.8)'   // 3008MB - Expensive
-                        ],
-                        borderColor: [
-                            'rgb(239, 68, 68)',
-                            'rgb(245, 158, 11)',
-                            'rgb(16, 185, 129)',
-                            'rgb(139, 92, 246)',
-                            'rgb(59, 130, 246)'
-                        ],
-                        borderWidth: 2,
-                        borderRadius: 6,
-                        borderSkipped: false
-                    }]
-                }, {
-                    ...commonOptions,
-                    plugins: {
-                        ...commonOptions.plugins,
-                        tooltip: {
-                            ...commonOptions.plugins.tooltip,
-                            callbacks: {
-                                label: function(context) {
-                                    const labels = ['Poor', 'Fair', 'Optimal', 'Good', 'Expensive'];
-                                    return `Efficiency: ${context.parsed.y.toFixed(2)} (${labels[context.dataIndex]})`;
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        ...commonOptions.scales,
-                        y: {
-                            ...commonOptions.scales.y,
-                            title: {
-                                display: true,
-                                text: 'Efficiency Score (lower = better)',
-                                font: { size: 13, weight: 'bold' },
-                                color: '#374151'
-                            }
-                        },
-                        x: {
-                            ...commonOptions.scales.x,
-                            title: {
-                                display: true,
-                                text: 'Memory Configuration',
-                                font: { size: 13, weight: 'bold' },
-                                color: '#374151'
-                            }
-                        }
-                    }
-                });
-            });
-        }
-
-        // Add resize listener for better responsiveness
-        window.addEventListener('resize', function() {
-            if (typeof Chart !== 'undefined' && Chart.instances) {
-                Chart.instances.forEach(chart => {
-                    if (chart && chart.resize) {
-                        chart.resize();
-                    }
-                });
-            }
-        });
-    </script>
 </body>
 </html>
