@@ -1,0 +1,172 @@
+{
+  "metadata": {
+    "functionArn": "arn:aws:lambda:us-east-1:123456789012:function:api-handler",
+    "functionName": "api-handler",
+    "timestamp": "2025-06-06T14:30:00Z",
+    "duration": "2.3m",
+    "strategy": "balanced",
+    "iterations": 10,
+    "totalInvocations": 50
+  },
+  "results": [
+    {
+      "memorySize": 256,
+      "avgDuration": 2456.3,
+      "avgCost": 0.000052,
+      "totalCost": 0.00052,
+      "costPerInvocation": 0.000052,
+      "invocations": 10,
+      "coldStarts": 2,
+      "errors": 0,
+      "p50Duration": 2400,
+      "p95Duration": 2890,
+      "p99Duration": 3100,
+      "minDuration": 2200,
+      "maxDuration": 3100,
+      "testDuration": 25.6,
+      "efficiencyScore": 2.51
+    },
+    {
+      "memorySize": 512,
+      "avgDuration": 1234.7,
+      "avgCost": 0.000056,
+      "totalCost": 0.00056,
+      "costPerInvocation": 0.000056,
+      "invocations": 10,
+      "coldStarts": 1,
+      "errors": 0,
+      "p50Duration": 1200,
+      "p95Duration": 1456,
+      "p99Duration": 1500,
+      "minDuration": 1100,
+      "maxDuration": 1500,
+      "testDuration": 12.8,
+      "efficiencyScore": 1.29
+    },
+    {
+      "memorySize": 1024,
+      "avgDuration": 678.2,
+      "avgCost": 0.000063,
+      "totalCost": 0.00063,
+      "costPerInvocation": 0.000063,
+      "invocations": 10,
+      "coldStarts": 1,
+      "errors": 0,
+      "p50Duration": 650,
+      "p95Duration": 789,
+      "p99Duration": 820,
+      "minDuration": 580,
+      "maxDuration": 820,
+      "testDuration": 7.2,
+      "efficiencyScore": 0.74
+    },
+    {
+      "memorySize": 2048,
+      "avgDuration": 456.1,
+      "avgCost": 0.000089,
+      "totalCost": 0.00089,
+      "costPerInvocation": 0.000089,
+      "invocations": 10,
+      "coldStarts": 0,
+      "errors": 0,
+      "p50Duration": 440,
+      "p95Duration": 523,
+      "p99Duration": 550,
+      "minDuration": 390,
+      "maxDuration": 550,
+      "testDuration": 4.8,
+      "efficiencyScore": 0.54
+    },
+    {
+      "memorySize": 3008,
+      "avgDuration": 398.5,
+      "avgCost": 0.000134,
+      "totalCost": 0.00134,
+      "costPerInvocation": 0.000134,
+      "invocations": 10,
+      "coldStarts": 0,
+      "errors": 0,
+      "p50Duration": 385,
+      "p95Duration": 445,
+      "p99Duration": 470,
+      "minDuration": 350,
+      "maxDuration": 470,
+      "testDuration": 4.2,
+      "efficiencyScore": 0.53
+    }
+  ],
+  "recommendation": {
+    "optimalMemorySize": 1024,
+    "currentMemorySize": 512,
+    "shouldOptimize": true,
+    "potentialSavings": {
+      "cost": "-12.5%",
+      "duration": "+45.1%"
+    },
+    "reasoning": "Increasing memory to 1024MB reduces execution time by 45% while increasing cost by only 12.5%, providing better overall efficiency for this API function",
+    "strategy": "balanced",
+    "optimalResult": {
+      "memorySize": 1024,
+      "avgDuration": 678.2,
+      "avgCost": 0.000063,
+      "efficiencyScore": 0.74
+    },
+    "currentResult": {
+      "memorySize": 512,
+      "avgDuration": 1234.7,
+      "avgCost": 0.000056,
+      "efficiencyScore": 1.29
+    }
+  },
+  "currentConfiguration": {
+    "memorySize": 512,
+    "timeout": 30,
+    "runtime": "nodejs18.x"
+  },
+  "insights": [
+    {
+      "type": "performance",
+      "title": "Significant Performance Gain",
+      "description": "Doubling memory from 512MB to 1024MB nearly halves execution time",
+      "impact": "high"
+    },
+    {
+      "type": "cost",
+      "title": "Acceptable Cost Increase",
+      "description": "The 12.5% cost increase is justified by 45% performance improvement",
+      "impact": "medium"
+    },
+    {
+      "type": "efficiency",
+      "title": "Optimal Efficiency Point",
+      "description": "1024MB provides the best balance of cost and performance",
+      "impact": "high"
+    },
+    {
+      "type": "scalability",
+      "title": "Diminishing Returns",
+      "description": "Memory configurations above 1024MB show diminishing performance returns",
+      "impact": "low"
+    }
+  ],
+  "costAnalysis": {
+    "currentMonthlyCost": 56.0,
+    "optimalMonthlyCost": 63.0,
+    "monthlyDifference": 7.0,
+    "costPerMillionInvocations": {
+      "current": 56.0,
+      "optimal": 63.0,
+      "difference": 7.0
+    },
+    "currency": "USD",
+    "assumptions": {
+      "monthlyInvocations": 1000000,
+      "averageRequestsPerSecond": 385
+    }
+  },
+  "charts": {
+    "durationVsMemory": "Generated in HTML report",
+    "costVsMemory": "Generated in HTML report",
+    "efficiencyChart": "Generated in HTML report"
+  }
+}
