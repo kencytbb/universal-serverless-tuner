@@ -12,42 +12,62 @@ A simplified, universal Lambda power tuning service that helps you optimize AWS 
 - **Visual Reports**: Generate charts and graphs to visualize performance trends
 - **Export Results**: Save tuning results in JSON, CSV, or PDF formats
 
-## 📊 Example Reports
+## 📊 Example Report Preview
 
 Here's what you can expect from the tuning reports:
 
-### 📈 Interactive HTML Report
+### 🎯 Report Summary
 
-The HTML reports include beautiful, interactive charts and comprehensive analysis:
+After tuning, you'll get a comprehensive analysis like this:
+
+```
+🚀 Lambda Power Tuning Report - api-handler
+Generated: June 6, 2025, 2:30 PM | Duration: 2.3 minutes | Strategy: Balanced
+
+┌─────────────────┬─────────────────┬─────────────────┬─────────────────┐
+│  Current Memory │ 🎯 Recommended  │  💰 Cost Impact │  ⚡ Speed Gain  │
+│      512MB      │     1024MB      │      +12%       │      +45%       │
+└─────────────────┴─────────────────┴─────────────────┴─────────────────┘
+
+🎯 Optimization Recommendation:
+Action: Increase memory from 512MB to 1024MB
+Impact: 45% faster execution with only 12% cost increase
+Monthly Impact: +$7.00/month for 1M invocations, but 45% faster response times
+```
+
+### 📈 Interactive HTML Report
 
 **[🔗 View Live Example Report](https://raw.githubusercontent.com/kencytbb/universal-serverless-tuner/main/examples/sample-report.html)**
 
-**Key Features:**
-- 📊 Interactive charts showing performance vs memory
-- 💰 Cost analysis with potential savings
-- 🎯 Clear optimization recommendations
-- 📈 Efficiency scoring across memory configurations
-- 📋 Detailed performance metrics table
-- 💡 Actionable insights and next steps
+The HTML reports include:
+- 📊 **Interactive responsive charts** that work on mobile and desktop
+- 💰 **Cost analysis** with potential savings breakdown
+- 🎯 **Clear optimization recommendations** with actionable insights
+- 📈 **Efficiency scoring** across memory configurations
+- 📋 **Detailed performance metrics** table with P95/P99 data
+- 💡 **Professional styling** with hover effects and responsive design
 
-### 📋 Sample Report Results
-
-Here's an example of what the tuning analysis reveals:
+### 📋 Sample Results Table
 
 | Memory (MB) | Avg Duration (ms) | Avg Cost ($) | Efficiency Score | Recommendation |
 |------------|------------------|--------------|------------------|----------------|
-| 256        | 2,456           | $0.000052    | 2.51             | Too slow |
-| **512**    | 1,234           | $0.000056    | 1.29             | **Current** |
+| 256        | 2,456           | $0.000052    | 2.51             | ❌ Too slow |
+| **512**    | 1,234           | $0.000056    | 1.29             | **📍 Current** |
 | **1024** ⭐ | **678**         | **$0.000063** | **0.74**         | **🎯 Optimal** |
-| 2048       | 456             | $0.000089    | 0.54             | Diminishing returns |
-| 3008       | 398             | $0.000134    | 0.53             | Cost inefficient |
+| 2048       | 456             | $0.000089    | 0.54             | ⚠️ Diminishing returns |
+| 3008       | 398             | $0.000134    | 0.53             | 💸 Cost inefficient |
 
-**🎯 Recommendation:** Increase memory from 512MB to 1024MB
-- **⚡ Performance:** 45% faster execution
-- **💰 Cost Impact:** 12% increase (acceptable trade-off)
-- **🎯 Efficiency:** Best overall balance for API functions
+### 📊 Visual Charts
+
+The reports include three responsive charts:
+
+1. **⚡ Execution Time vs Memory** - Shows how performance improves with memory
+2. **💰 Cost vs Memory** - Displays cost progression across configurations  
+3. **🎯 Efficiency Score vs Memory** - Identifies the optimal balance point
 
 ### 📄 JSON Report Structure
+
+**[📄 View Complete JSON Example](examples/sample-report.json)**
 
 ```json
 {
@@ -68,7 +88,7 @@ Here's an example of what the tuning analysis reveals:
   },
   "insights": [
     {
-      "type": "performance",
+      "type": "performance", 
       "title": "Significant Performance Gain",
       "impact": "high"
     }
@@ -76,19 +96,17 @@ Here's an example of what the tuning analysis reveals:
 }
 ```
 
-**[📄 View Complete JSON Example](examples/sample-report.json)**
-
 ## 📋 Table of Contents
 
-- [Installation](#installation)
-- [Quick Start](#quick-start)
-- [Configuration](#configuration)
-- [Usage](#usage)
-- [Performance Reports](#performance-reports)
-- [Scheduling](#scheduling)
-- [API Reference](#api-reference)
-- [Examples](#examples)
-- [Troubleshooting](#troubleshooting)
+- [Installation](#-installation)
+- [Quick Start](#-quick-start)
+- [Configuration](#️-configuration)
+- [Usage Examples](#-usage-examples)
+- [Performance Reports](#-performance-reports)
+- [Scheduling](#️-scheduling)
+- [API Reference](#-api-reference)
+- [Troubleshooting](#-troubleshooting)
+- [Contributing](#-contributing)
 
 ## 🛠 Installation
 
@@ -250,6 +268,67 @@ node src/tuner.js --config tuner.config.json
 }
 ```
 
+## 📋 Usage Examples
+
+### Example 1: Basic HTTP API Function
+
+```bash
+node src/tuner.js \
+  --function-arn arn:aws:lambda:us-east-1:123456789012:function:api-handler \
+  --payload '{"httpMethod": "GET", "path": "/users"}' \
+  --memory-sizes 256,512,1024 \
+  --iterations 20 \
+  --strategy speed
+```
+
+### Example 2: Data Processing Function
+
+```json
+{
+  "functionArn": "arn:aws:lambda:us-east-1:123456789012:function:data-processor",
+  "memorySizes": [1024, 2048, 3008, 4096, 5120],
+  "iterations": 5,
+  "payload": {
+    "Records": [
+      {
+        "s3": {
+          "bucket": {"name": "my-bucket"},
+          "object": {"key": "data/large-file.csv"}
+        }
+      }
+    ]
+  },
+  "strategy": "balanced",
+  "advanced": {
+    "timeout": 900,
+    "warmupInvocations": 1
+  }
+}
+```
+
+### Example 3: Scheduled Optimization
+
+```json
+{
+  "functionArn": "arn:aws:lambda:us-east-1:123456789012:function:report-generator",
+  "memorySizes": [512, 1024, 2048, 3008],
+  "iterations": 15,
+  "payload": {"reportType": "daily"},
+  "strategy": "cost",
+  "autoOptimize": true,
+  "schedule": {
+    "enabled": true,
+    "cron": "0 3 * * 1",
+    "timezone": "America/New_York"
+  },
+  "reports": {
+    "format": ["html", "json"],
+    "outputDir": "./reports",
+    "includeCharts": true
+  }
+}
+```
+
 ## 📊 Performance Reports
 
 After each tuning session, detailed reports are generated in the specified format(s):
@@ -397,67 +476,6 @@ tuner.on('complete', (results) => {
 tuner.on('error', (error) => {
   console.error('Tuning failed:', error);
 });
-```
-
-## 📋 Examples
-
-### Example 1: Basic HTTP API Function
-
-```bash
-node src/tuner.js \
-  --function-arn arn:aws:lambda:us-east-1:123456789012:function:api-handler \
-  --payload '{"httpMethod": "GET", "path": "/users"}' \
-  --memory-sizes 256,512,1024 \
-  --iterations 20 \
-  --strategy speed
-```
-
-### Example 2: Data Processing Function
-
-```json
-{
-  "functionArn": "arn:aws:lambda:us-east-1:123456789012:function:data-processor",
-  "memorySizes": [1024, 2048, 3008, 4096, 5120],
-  "iterations": 5,
-  "payload": {
-    "Records": [
-      {
-        "s3": {
-          "bucket": {"name": "my-bucket"},
-          "object": {"key": "data/large-file.csv"}
-        }
-      }
-    ]
-  },
-  "strategy": "balanced",
-  "advanced": {
-    "timeout": 900,
-    "warmupInvocations": 1
-  }
-}
-```
-
-### Example 3: Scheduled Optimization
-
-```json
-{
-  "functionArn": "arn:aws:lambda:us-east-1:123456789012:function:report-generator",
-  "memorySizes": [512, 1024, 2048, 3008],
-  "iterations": 15,
-  "payload": {"reportType": "daily"},
-  "strategy": "cost",
-  "autoOptimize": true,
-  "schedule": {
-    "enabled": true,
-    "cron": "0 3 * * 1",
-    "timezone": "America/New_York"
-  },
-  "reports": {
-    "format": ["html", "json"],
-    "outputDir": "./reports",
-    "includeCharts": true
-  }
-}
 ```
 
 ## 🔍 Troubleshooting
