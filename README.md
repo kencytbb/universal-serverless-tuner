@@ -37,15 +37,49 @@ Monthly Impact: +$7.00/month for 1M invocations, but 45% faster response times
 
 ### 📈 Interactive HTML Report
 
-**[🔗 View Live Example Report](https://raw.githubusercontent.com/kencytbb/universal-serverless-tuner/main/examples/sample-report.html)**
+**[🔗 View Live Example Report](https://htmlpreview.github.io/?https://github.com/kencytbb/universal-serverless-tuner/blob/main/examples/sample-report.html)**
 
 The HTML reports include:
-- 📊 **Interactive responsive charts** that work on mobile and desktop
+- 📊 **Visual bar charts** showing performance trends across memory configurations
 - 💰 **Cost analysis** with potential savings breakdown
 - 🎯 **Clear optimization recommendations** with actionable insights
 - 📈 **Efficiency scoring** across memory configurations
 - 📋 **Detailed performance metrics** table with P95/P99 data
-- 💡 **Professional styling** with hover effects and responsive design
+- 💡 **Professional styling** with responsive design and hover effects
+
+### 📊 Sample Performance Charts
+
+The reports include three key visualizations:
+
+#### ⚡ Execution Time vs Memory
+Shows how performance improves with increased memory allocation:
+```
+2456ms │ ███████████████████████  256MB (Slow)
+1234ms │ ████████████  512MB (Current)
+ 678ms │ ██████  1024MB ⭐ (Optimal)
+ 456ms │ ████  2048MB (Diminishing returns)
+ 398ms │ ███  3008MB (Expensive)
+```
+
+#### 💰 Cost vs Memory
+Displays cost progression across configurations:
+```
+$0.000052 │ ████  256MB (Cheapest)
+$0.000056 │ █████  512MB (Current) 
+$0.000063 │ ██████  1024MB ⭐ (Best value)
+$0.000089 │ ████████  2048MB (Higher cost)
+$0.000134 │ ████████████  3008MB (Most expensive)
+```
+
+#### 🎯 Efficiency Score vs Memory
+Identifies the optimal balance point (lower scores = better efficiency):
+```
+2.51 │ ███████████████████  256MB (Poor)
+1.29 │ ████████████  512MB (Fair)
+0.74 │ ██████  1024MB ⭐ (Optimal)
+0.54 │ ████  2048MB (Good)
+0.53 │ ███  3008MB (Expensive)
+```
 
 ### 📋 Sample Results Table
 
@@ -56,14 +90,6 @@ The HTML reports include:
 | **1024** ⭐ | **678**         | **$0.000063** | **0.74**         | **🎯 Optimal** |
 | 2048       | 456             | $0.000089    | 0.54             | ⚠️ Diminishing returns |
 | 3008       | 398             | $0.000134    | 0.53             | 💸 Cost inefficient |
-
-### 📊 Visual Charts
-
-The reports include three responsive charts:
-
-1. **⚡ Execution Time vs Memory** - Shows how performance improves with memory
-2. **💰 Cost vs Memory** - Displays cost progression across configurations  
-3. **🎯 Efficiency Score vs Memory** - Identifies the optimal balance point
 
 ### 📄 JSON Report Structure
 
@@ -95,6 +121,14 @@ The reports include three responsive charts:
   ]
 }
 ```
+
+### 📈 Key Insights from Example Report
+
+- **🎯 Sweet Spot**: 1024MB provides the best balance of cost and performance
+- **⚡ Performance Gain**: Doubling memory from 512MB to 1024MB nearly halves execution time
+- **💰 Cost Efficiency**: The 12% cost increase is justified by 45% performance improvement
+- **🚀 Cold Start Impact**: Minimal cold start differences across memory configurations
+- **📉 Diminishing Returns**: Memory above 1024MB shows rapidly diminishing performance benefits
 
 ## 📋 Table of Contents
 
@@ -344,7 +378,7 @@ After each tuning session, detailed reports are generated in the specified forma
 
 ### HTML Report Features
 
-- Interactive charts (powered by Chart.js)
+- Interactive charts (powered by CSS)
 - Cost and performance comparison tables
 - Optimization recommendations
 - Historical trend analysis (if multiple runs)
